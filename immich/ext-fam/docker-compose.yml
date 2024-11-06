@@ -10,7 +10,7 @@ name: immich
 
 services:
   immich-server:
-    container_name: fam-immich_server
+    container_name: immich_server
     image: ghcr.io/immich-app/immich-server:${IMMICH_VERSION:-release}
     # extends:
     #   file: hwaccel.transcoding.yml
@@ -19,7 +19,7 @@ services:
       - ${UPLOAD_LOCATION}:/usr/src/app/famupload
       - /etc/localtime:/etc/localtime:ro
     env_file:
-      - .famenv
+      - .env
     ports:
       - 80:2283
     depends_on:
@@ -38,18 +38,18 @@ services:
     volumes:
       - model-cache:/cache
     env_file:
-      - .famenv
+      - .env
     restart: always
 
   redis:
-    container_name: fam-immich_redis
+    container_name: immich_redis
     image: docker.io/redis:6.2-alpine@sha256:328fe6a5822256d065debb36617a8169dbfbd77b797c525288e465f56c1d392b
     healthcheck:
       test: redis-cli ping || exit 1
     restart: always
 
   database:
-    container_name: fam-immich_postgres
+    container_name: immich_postgres
     image: docker.io/tensorchord/pgvecto-rs:pg14-v0.2.0@sha256:90724186f0a3517cf6914295b5ab410db9ce23190a2d9d0b9dd6463e3fa298f0
     environment:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
