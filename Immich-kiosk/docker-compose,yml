@@ -1,12 +1,12 @@
-name: immichframe
 services:
-  immichframe:
-    container_name: immichframe
-    image: ghcr.io/immichframe/immichframe:latest
-    restart: on-failure
-    ports:
-      - "8086:8080"
-    env_file:
-      - .env
+  immich-kiosk:
+    image: damongolding/immich-kiosk:latest
+    container_name: immich-kiosk
     environment:
       TZ: "America/Detroit"
+    volumes:
+      # Mount the directory with config.yaml inside
+      - ./config:/config
+    restart: always
+    ports:
+      - 3000:3000
